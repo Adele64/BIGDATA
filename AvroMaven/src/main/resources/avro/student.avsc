@@ -1,0 +1,32 @@
+{
+  "namespace": "com.bigdata.avro",
+  "type": "record",
+  "name": "Student",
+  "fields": [
+    {
+      "name": "id",
+      "type": "int",
+      "doc": "Identifiant unique de l'étudiant"
+    },
+    {
+      "name": "name",
+      "type": "string",
+      "doc": "Nom complet de l'étudiant"
+    },
+    {
+      "name": "age",
+      "type": "int",
+      "doc": "Âge de l'étudiant"
+    },
+    {
+      "name": "degree",
+      "type": "string",
+      "doc": "Diplôme de l'étudiant (IT, Business, etc.)"
+    },
+    {
+      "name": "email",
+      "type": "string",
+      "doc": "Email de l'étudiant"
+    }
+  ]
+}

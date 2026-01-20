@@ -1,0 +1,7 @@
+com/bigdata/avro/Student$Builder.class
+com/bigdata/avro/Student.class
+org/example/AvroSerde.class
+org/example/StudentProducer.class
+org/example/AvroDeserializer.class
+org/example/StudentStreamsApp.class
+org/example/AvroSerializer.class

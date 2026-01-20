@@ -1,0 +1,6 @@
+/home/tpreseau/IdeaProjects/AvroMaven/src/main/java/org/example/AvroDeserializer.java
+/home/tpreseau/IdeaProjects/AvroMaven/src/main/java/org/example/AvroSerde.java
+/home/tpreseau/IdeaProjects/AvroMaven/src/main/java/org/example/AvroSerializer.java
+/home/tpreseau/IdeaProjects/AvroMaven/src/main/java/org/example/StudentProducer.java
+/home/tpreseau/IdeaProjects/AvroMaven/src/main/java/org/example/StudentStreamsApp.java
+/home/tpreseau/IdeaProjects/AvroMaven/target/generated-sources/avro/com/bigdata/avro/Student.java
