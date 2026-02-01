@@ -1,0 +1,11 @@
+{
+  "namespace": "com.bigdata.avro",
+  "type": "record",
+  "name": "Student",
+  "fields": [
+    {"name": "firstName", "type": "string"},
+    {"name": "lastName", "type": "string"},
+    {"name": "age", "type": "int"},
+    {"name": "engineeringDegree", "type": "string"}
+  ]
+}
