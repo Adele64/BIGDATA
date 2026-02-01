@@ -1,0 +1,38 @@
+version: '3'
+services:
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.4.4
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181       # Port d'écoute de ZooKeeper
+      ZOOKEEPER_TICK_TIME: 2000        # Temps de base pour les tickers
+      ZOOKEEPER_SYNC_LIMIT: 2          # Limite de synchronisation entre les serveurs
+    ports:
+      - "2181:2181"  # Mappage du port de ZooKeeper
+    networks:
+      - kafka-net     # Réseau pour Kafka et ZooKeeper
+    restart: unless-stopped   # Redémarre le conteneur sauf si l'arrêt est explicitement demandé
+
+  kafka-broker:
+    image: confluentinc/cp-kafka:7.4.4
+    depends_on:
+      - zookeeper     # Kafka dépend de ZooKeeper
+    environment:
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181  # Connexion à ZooKeeper
+      KAFKA_LISTENER_SECURITY_PROTOCOL: PLAINTEXT  # Sécuriser les connexions
+      KAFKA_ADVERTISED_LISTENER: INSIDE://kafka-broker:29092  # Adresse interne
+      KAFKA_LISTENER_NAME_INTERNAL: INSIDE     # Nom de l'interface interne
+      KAFKA_LISTENER_PORT: 29092  # Port d'écoute interne
+      KAFKA_LISTENER_INTERNAL: INSIDE   # Type de listener interne
+      KAFKA_LISTENER_EXTERNAL: OUTSIDE  # Type de listener externe
+      KAFKA_LISTENER_PORT_EXTERNAL: 9093  # Port d'écoute externe
+      KAFKA_LOG_DIRS: /var/lib/kafka/data  # Emplacement des logs de Kafka
+    ports:
+      - "9093:9093"  # Port externe pour Kafka
+      - "29092:29092"  # Port interne pour Kafka
+    networks:
+      - kafka-net     # Réseau pour Kafka et ZooKeeper
+    restart: unless-stopped   # Redémarre Kafka sauf si l'arrêt est explicitement demandé
+
+networks:
+  kafka-net:
+    driver: bridge  # Utilisation du réseau bridge par défaut

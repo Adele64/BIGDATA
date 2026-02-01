@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  kafka-broker:
+    image: confluentinc/cp-kafka:8.0.3
+    container_name: kafka-broker
+    environment:
+      KAFKA_PROCESS_ROLES: broker,controller  # Rôles de Kafka
+      KAFKA_LISTENERS: PLAINTEXT://localhost:9092,CONTROLLER://localhost:9093  # Écouteurs Kafka
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@localhost:9093
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      KAFKA_NUM_PARTITIONS: 3
+      KAFKA_KRAFT_MODE: "true"  # Active le mode KRaft (sans ZooKeeper)
+      KAFKA_NODE_ID: 1
+      CLUSTER_ID: 'MkU3OEVBNTcwNTJENDM2Qk'
+    ports:
+      - "9093:9093"  # Port pour le contrôleur
+      - "9092:9092"  # Port pour les brokers
+    networks:
+      - kafka-net
+    restart: unless-stopped
+
+  kafka-ui:
+    image: kafbat/kafka-ui:latest
+    container_name: kafka-ui
+    depends_on:
+      - kafka-broker
+    ports:
+      - "9091:8080"  # Port pour accéder à Kafka UI
+    environment:
+      DYNAMIC_CONFIG_ENABLED: true
+      KAFKA_CLUSTERS_0_NAME: kafka-broker
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka-broker:9092  # Connexion à Kafka
+    networks:
+      - kafka-net
+    restart: unless-stopped
+
+networks:
+  kafka-net:
+    driver: bridge
+
